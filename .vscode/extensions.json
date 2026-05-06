@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "rocq-prover.vsrocq",
+    "yellpika.latex-input",
+  ],
+  "unwantedRecommendations": [
+    "coq-community.vscoq1", 
+    "maximedenes.vscoq",
+  ],
+}
