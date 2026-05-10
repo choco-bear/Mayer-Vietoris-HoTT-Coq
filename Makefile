@@ -1,5 +1,5 @@
-COQTHEORIES   := $(shell find . -not -path "./deprecated/*" -not -path "./_opam/*" -not -path "./.local/*" -iname '*.v')
-COQMODULE     := "MayerVietorisHoTT"
+COQTHEORIES := $(shell find . -not -path "./deprecated/*" -not -path "./_opam/*" -not -path "./.local/*" -iname '*.v')
+COQMODULE   := "MayerVietorisHoTT"
 
 %.vo: %.v
 	$(MAKE) -f Makefile.coq $@
@@ -14,7 +14,9 @@ all-quick: Makefile.coq $(COQTHEORIES)
 .PHONY: all all-quick
 
 Makefile.coq: Makefile $(COQTHEORIES)
-	(echo "-arg -w -arg -deprecated-hint-without-locality"; \
+	(echo "-arg -noinit"; \
+	 echo "-arg -indices-matter"; \
+	 echo "-arg -w -arg -deprecated-hint-without-locality"; \
 	 echo "-arg -w -arg -deprecated-instance-without-locality"; \
 	 echo "-arg -w -arg -deprecated-from-Coq"; \
 	 echo "-arg -w -arg -deprecated-missing-stdlib"; \
