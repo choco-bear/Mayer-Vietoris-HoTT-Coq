@@ -42,7 +42,7 @@ Module Cohomology.
     Instance _inv (n: nat): Inverse (_t n) :=
       Trunc_rec (λ f, tr (λ x, (⇑ n)⁻¹ ((⇑ n (f x))⁻¹)%path)).
 
-    Program Instance is_group (n: nat): IsGroup (_t n) := Build_IsGroup _ _ _ _ _ _ _.
+    Program Instance _is_group (n: nat): IsGroup (_t n) := Build_IsGroup _ _ _ _ _ _ _.
     Next Obligation.
       refine (λ n, Trunc_ind _ (λ f, ap tr (path_forall _ _ (λ x, ap (⇑ n)⁻¹ _ • eissect _ _)))).
       by rewrite eisretr, concat_Vp, point_eq.
@@ -77,7 +77,7 @@ Module Cohomology.
       refine (ap_compose (⇑ n.+1) (⇑ n.+1)⁻¹ _ • ap _ H • (ap_compose (⇑ n.+1) (⇑ n.+1)⁻¹ _)⁻¹).
     Qed.
 
-    Program Instance is_ab_group (n: nat): IsAbGroup (_t n) := Build_IsAbGroup _ _ _ _ _ _.
+    Program Instance _is_ab_group (n: nat): IsAbGroup (_t n) := Build_IsAbGroup _ _ _ _ _ _.
   End Cohomology.
 
   Definition pullback {X Y: Type} (f: Y → X) (G: AbGroup) (n: nat): _t X G n → _t Y G n :=
