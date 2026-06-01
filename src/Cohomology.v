@@ -1,5 +1,4 @@
 From HoTT Require Import HoTT Utf8.
-Require Import EMSpace.
 
 Open Scope mc_add_scope.
 Open Scope pointed_scope.
