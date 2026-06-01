@@ -3,6 +3,8 @@ From HoTT Require Import HoTT Utf8.
 Open Scope mc_add_scope.
 Open Scope pointed_scope.
 
+(** Cohomology *)
+(** This module defines the cohomology groups of a space with coefficients in an abelian group. *)
 Module Cohomology.
   Section Cohomology.
     Context {_Funext: Funext} {_Univalence: Univalence}.
@@ -79,5 +81,5 @@ Module Cohomology.
   End Cohomology.
 
   Definition pullback {X Y: Type} (f: Y → X) (G: AbGroup) (n: nat): _t X G n → _t Y G n :=
-    Trunc_functor 0 (λ (hx : X → K(G,n)), hx o f).
+    Trunc_rec (λ hx, tr (λ y, hx (f y))).
 End Cohomology.
