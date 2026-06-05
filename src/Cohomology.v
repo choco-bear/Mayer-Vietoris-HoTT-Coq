@@ -83,3 +83,16 @@ Module Cohomology.
   Definition pullback {X Y: Type} (f: Y → X) (G: AbGroup) (n: nat): _t X G n → _t Y G n :=
     Trunc_rec (λ hx, tr (λ y, hx (f y))).
 End Cohomology.
+
+Definition add_pt (X: Type): pType := Build_pType (X + Unit) (inr tt).
+
+Definition unpointed_equiv_pointed {_Funext: Funext} {X: Type} {Y: pType} {_HSpace: IsHSpace Y}:
+  (X → Y) ≃ (add_pt X ->* Y).
+Proof.
+  srapply equiv_adjointify.
+  - exact (λ f, Build_pMap _ _ (sum_rec _ f (λ _, pt)) 1).
+  - exact (λ g x, g (inl x)).
+  - refine (λ g, hspace_path_pforall_from_path_arrow (path_forall _ _ _)).
+    exact (sum_ind _ (λ x, 1) (Unit_ind ((dpoint_eq _)⁻¹)%path)).
+  - exact (λ f, path_forall _ f (λ x, 1)).
+Qed.
