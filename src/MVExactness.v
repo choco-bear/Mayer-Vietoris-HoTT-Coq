@@ -76,10 +76,10 @@ Section MVExactness.
     rapply contr_inhabited_hprop. apply tr.
     exists (tr a, tr b). apply path_sigma_hprop. cbn.
     refine (ap tr (path_forall _ _ (λ c, equiv_inj (⇑ n) _))).
-    rewrite !eisretr.
     pose proof (concat_Ap hq (pglue c)) as Hnat.
     rewrite mv_delta_fun_beta_pglue in Hnat.
     rewrite ap_const, concat_p1 in Hnat.
+    rewrite !eisretr.
     exact (ap (λ x, concat x _) Hnat⁻¹ • concat_pp_V _ _).
   Defined.
 
@@ -101,8 +101,8 @@ Section MVExactness.
     exists (tr w). apply path_sigma_hprop. cbn.
     refine (ap tr (path_forall _ _ (Pushout_ind_FlFr _ _
       (λ a, (hl a)^) (λ b, (hr b)^) (λ c, _)))).
-    rewrite mv_delta_fun_beta_pglue, eisretr.
-    rewrite concat_pp_p, concat_pV, concat_p1.
-    reflexivity.
+    refine (ap (λ x, concat x _) (mv_delta_fun_beta_pglue f g n _ c) • _).
+    refine (ap (λ x, concat x _) (eisretr (⇑ n) _) • _).
+    refine (concat_pp_p _ _ _ • ap (concat _) (concat_pV _) • concat_p1 _).
   Defined.
 End MVExactness.
