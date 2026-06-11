@@ -94,21 +94,21 @@ Module Cohomology.
       Build_GroupHomomorphism coboundary_susp_map coboundary_susp_preserves_op.
   End Suspension.
 
-  Section Pullback.
+  Section Functoriality.
     Context {_Funext: Funext} {_Univalence: Univalence}.
 
-    Definition pullback_map X Y (f: Y → X) G n: H n X G → H n Y G := Trunc_rec (λ u, tr (u ∘ f)).
+    Definition functor_map X Y (f: Y → X) G n: H n X G → H n Y G := Trunc_rec (λ u, tr (u ∘ f)).
 
-    Lemma pullback_preserves_op
+    Lemma functor_preserves_op
           X Y (f: Y → X) G n:
-      IsSemiGroupPreserving (@pullback_map X Y f G n).
+      IsSemiGroupPreserving (@functor_map X Y f G n).
     Proof.
       by refine (Trunc_ind _ (λ u, Trunc_ind _ (λ v, _))).
     Qed.
 
-    Definition pullback X Y (f: Y → X) G n: H n X G $-> H n Y G :=
-      Build_GroupHomomorphism (@pullback_map X Y f G n) (@pullback_preserves_op X Y f G n).
-  End Pullback.
+    Definition functor X Y (f: Y → X) G n: H n X G $-> H n Y G :=
+      Build_GroupHomomorphism (@functor_map X Y f G n) (@functor_preserves_op X Y f G n).
+  End Functoriality.
 End Cohomology.
 
 Definition add_pt (X: Type): pType := Build_pType (X + Unit) (inr tt).
@@ -125,6 +125,6 @@ Proof.
 Qed.
 
 Notation H := Cohomology.H.
-Notation "f ∗" := (Cohomology.pullback f _ _) (at level 8, left associativity, format "f ∗").
+Notation "f ∗" := (Cohomology.functor f _ _) (at level 8, left associativity, format "f ∗").
 Notation δ := (Cohomology.coboundary_susp _).
 Notation "δ@{ n }" := (Cohomology.coboundary_susp n) (at level 8, left associativity, only parsing).
