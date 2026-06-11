@@ -56,6 +56,30 @@ Section Lemmas.
     rewrite <- (inv_V pa).
     exact (@concat_point_eq_square Y y a pa⁻¹ P Q).
   Qed.
+
+  Lemma loop_moveL_1M {X: pType} {x y: pt = pt :> X}:
+    x • y⁻¹ = 1 -> x = y.
+  Proof.
+    intro h.
+    refine ((concat_p1 x)⁻¹ • _).
+    refine (ap (concat x) (concat_Vp y)⁻¹ • _).
+    rewrite concat_p_pp.
+    refine (ap (λ t, t • y) h • _).
+    apply concat_1p.
+  Defined.
+
+  Definition Pushout_ind_FlFr {A B C Y: Type} {f: A → B} {g: A → C}
+        (F G: Pushout f g → Y)
+        (Hl: forall b, F (pushl b) = G (pushl b))
+        (Hr: forall c, F (pushr c) = G (pushr c))
+        (Hglue: forall a, ap F (pglue a) • Hr (g a) = Hl (f a) • ap G (pglue a)):
+    F == G.
+  Proof.
+    srapply Pushout_ind.
+    - exact Hl.
+    - exact Hr.
+    - intro a. nrapply transport_paths_FlFr'. exact (Hglue a).
+  Defined.
 End Lemmas.
 
 Local Notation "⇑" := pequiv_loops_em_em.
@@ -139,6 +163,16 @@ Section EM.
     apply whiskerL.
     exact (naturality_cancelR _ Hnat).
   Qed.
+
+  Lemma em_diff_eq_pt (a b: K(G,n)):
+    (⇑ G n)⁻¹ (⇑ G n a • (⇑ G n b)⁻¹) = pt -> a = b.
+  Proof.
+    intro p.
+    apply (equiv_inj (⇑ G n)).
+    apply loop_moveL_1M.
+    refine ((eisretr (⇑ G n) _)⁻¹ • ap (⇑ G n) p • _).
+    exact (point_eq (⇑ G n)).
+  Defined.
 End EM.
 
 Definition pushout_to_suspension {C A B: Type} {f: C → A} {g: C → B}: Pushout f g → Σ C :=
