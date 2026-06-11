@@ -9,7 +9,7 @@ Section MVSequence.
   Context {_Funext: Funext} {_Univalence: Univalence}.
   Context {C A B: Type} (f: C → A) (g: C → B).
 
-  Definition X := Pushout f g.
+  Local Notation X := (Pushout f g).
 
   Context [G: AbGroup] (n: nat).
 
@@ -42,6 +42,18 @@ Section MVSequence.
 
     Definition mv_diff: (H n A G) ⊕ (H n B G) $-> H n C G := Build_GroupHomomorphism mv_diff_map _.
   End Difference.
+
+  Definition mv_delta_fun (u: C → K(G,n)): X → K(G,S n) :=
+    Susp_rec pt pt (⇑ n ∘ u) ∘ pushout_to_suspension.
+
+  Lemma mv_delta_fun_beta_pglue (u: C → K(G,n)) (c: C):
+    ap (mv_delta_fun u) (pglue c) = ⇑ n (u c).
+  Proof.
+    unfold mv_delta_fun, pushout_to_suspension.
+    rewrite ap_compose.
+    rewrite Pushout_rec_beta_pglue.
+    exact (Susp_rec_beta_merid (H_merid:=⇑ n ∘ u) c).
+  Defined.
 
   Definition mv_delta: H n C G $-> H (S n) X G := pushout_to_suspension ∗ $o δ.
 End MVSequence.
